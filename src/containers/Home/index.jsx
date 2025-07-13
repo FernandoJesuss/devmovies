@@ -8,6 +8,11 @@ import { getImages } from "../../utils/getImages";
 function Home() {
     const [movie, setMovie] = useState([]);
     const [topMovies, setTopMovies] = useState([]);
+    const [topSeries, setTopSeries] = useState([]);
+    const [popularSeries, setPopularSeries] = useState([]);
+     const [TopPeople, setTopPeople] = useState([]);
+
+    
 
 
     useEffect(() => {
@@ -23,8 +28,6 @@ function Home() {
             }
         }
 
-
-
         async function getTopMovies() {
             try {
                 const {
@@ -37,8 +40,47 @@ function Home() {
             }
         }
 
-        getTopMovies()
+        async function getTopSeries() {
+            try {
+                const {
+                    data: { results }
+                } = await api.get("/tv/top_rated");
+
+                setTopSeries(results)
+            } catch (error) {
+                console.error("Erro ao buscar Series:", error);
+            }
+        }
+
+        async function getPopularSeries() {
+            try {
+                const {
+                    data: { results }
+                } = await api.get("/tv/popular");
+
+                setPopularSeries(results)
+            } catch (error) {
+                console.error("Erro ao buscar Series:", error);
+            }
+        }
+
+            async function getTopPeople() {
+            try {
+                const {
+                    data: { results }
+                } = await api.get("/person/popular");
+
+                setTopPeople(results)
+            } catch (error) {
+                console.error("Erro ao buscar Series:", error);
+            }
+        }
+
         getMovies();
+        getTopMovies()
+        getTopSeries()
+        getPopularSeries()
+        getTopPeople()
     }, []);
 
     return (
@@ -64,6 +106,9 @@ function Home() {
                 </Background>
             )}
             {topMovies && <Slider info={topMovies} title={"Top Filmes"} />}
+            {topSeries && <Slider info={topSeries} title={"Top Séries"} />}
+             {popularSeries && <Slider info={popularSeries} title={" Séries Popular "} />}
+              {TopPeople && <Slider info={TopPeople} title={" Top Artistas "} />}
         </>
     );
 }
@@ -73,3 +118,4 @@ export default Home;
 
 
 
+popularSeries
