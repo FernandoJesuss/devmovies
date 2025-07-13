@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
 import api from "../../services/api";
 import { Background, Info, Poster, Container, Button, ContainerButtons } from "./styles"
+import Slider from "../../components/Slider";
+import { getImages } from "../../utils/getImages";
 
 
 function Home() {
     const [movie, setMovie] = useState([]);
+    const [topMovies, setTopMovies] = useState([]);
 
 
     useEffect(() => {
@@ -20,13 +23,28 @@ function Home() {
             }
         }
 
+
+
+        async function getTopMovies() {
+            try {
+                const {
+                    data: { results }
+                } = await api.get("/movie/top_rated");
+
+                setTopMovies(results)
+            } catch (error) {
+                console.error("Erro ao buscar filmes:", error);
+            }
+        }
+
+        getTopMovies()
         getMovies();
     }, []);
 
     return (
         <>
             {movie && (
-                <Background img={`https://image.tmdb.org/t/p/original${movie.backdrop_path}`}
+                <Background img={getImages(movie.backdrop_path)}
                 >
                     <Container>
                         <Info>
@@ -40,12 +58,12 @@ function Home() {
                         <Poster>
                             <img
                                 alt="capa-do-filme"
-                                src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-                            />
+                                src={getImages(movie.poster_path)} />
                         </Poster>
                     </Container>
                 </Background>
             )}
+            {topMovies && <Slider info={topMovies} title={"Top Filmes"} />}
         </>
     );
 }
