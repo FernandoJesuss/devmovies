@@ -3,6 +3,7 @@ import api from "../../services/api";
 import { Background, Info, Poster, Container, Button, ContainerButtons } from "./styles"
 import Slider from "../../components/Slider";
 import { getImages } from "../../utils/getImages";
+import Modal from "../../components/Modal";
 
 
 function Home() {
@@ -10,9 +11,9 @@ function Home() {
     const [topMovies, setTopMovies] = useState([]);
     const [topSeries, setTopSeries] = useState([]);
     const [popularSeries, setPopularSeries] = useState([]);
-     const [TopPeople, setTopPeople] = useState([]);
+    const [TopPeople, setTopPeople] = useState([]);
 
-    
+
 
 
     useEffect(() => {
@@ -64,7 +65,7 @@ function Home() {
             }
         }
 
-            async function getTopPeople() {
+        async function getTopPeople() {
             try {
                 const {
                     data: { results }
@@ -86,8 +87,8 @@ function Home() {
     return (
         <>
             {movie && (
-                <Background img={getImages(movie.backdrop_path)}
-                >
+                <Background img={getImages(movie.backdrop_path)}>
+                    <Modal movieId={movie.id} />
                     <Container>
                         <Info>
                             <h1>{movie.title}</h1>
@@ -107,8 +108,8 @@ function Home() {
             )}
             {topMovies && <Slider info={topMovies} title={"Top Filmes"} />}
             {topSeries && <Slider info={topSeries} title={"Top Séries"} />}
-             {popularSeries && <Slider info={popularSeries} title={" Séries Popular "} />}
-              {TopPeople && <Slider info={TopPeople} title={" Top Artistas "} />}
+            {popularSeries && <Slider info={popularSeries} title={" Séries Popular "} />}
+            {TopPeople && <Slider info={TopPeople} title={" Top Artistas "} />}
         </>
     );
 }
@@ -118,4 +119,3 @@ export default Home;
 
 
 
-popularSeries
