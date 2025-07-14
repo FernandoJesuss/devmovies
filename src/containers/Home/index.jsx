@@ -8,7 +8,6 @@ import Slider from "../../components/Slider";
 import { getImages } from "../../utils/getImages";
 import Modal from "../../components/Modal";
 
-
 function Home() {
     const [ShowModal, setShowModal] = useState(false);
     const [movie, setMovie] = useState([]);
@@ -18,26 +17,28 @@ function Home() {
     const [TopPeople, setTopPeople] = useState([]);
     const navigate = useNavigate()
 
-
-
-
     useEffect(() => {
         async function getAllData() {
+            Promise.all([
+                getMovies(),
+                getTopMovies(),
+                getTopSeries(),
+                getPopularSeries(),
+                getTopPeople(),
+            ])
+                .then(([movie, topMovies, topSeries, popularSeries, topPeople]) => {
+                    setMovie(movie)
+                    setTopMovies(topMovies)
+                    setTopSeries(topSeries)
+                    setPopularSeries(popularSeries)
+                    setTopPeople(topPeople)
+                })
+                .catch((error) => console.error(error))
 
-
-                setMovie( await getMovies())
-                setTopMovies( await getTopMovies())
-                setTopSeries( await getTopSeries())
-                setPopularSeries( await getPopularSeries())
-                setTopPeople( await getTopPeople())
-                
-            
         }
 
-    
-
         getAllData();
-      
+
     }, []);
 
     return (
