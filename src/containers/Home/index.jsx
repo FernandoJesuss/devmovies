@@ -1,4 +1,7 @@
 import React, { useEffect, useState } from "react";
+
+import { useNavigate } from "react-router-dom";
+
 import api from "../../services/api";
 import { Background, Info, Poster, Container, Button, ContainerButtons } from "./styles"
 import Slider from "../../components/Slider";
@@ -13,6 +16,7 @@ function Home() {
     const [topSeries, setTopSeries] = useState([]);
     const [popularSeries, setPopularSeries] = useState([]);
     const [TopPeople, setTopPeople] = useState([]);
+    const navigate = useNavigate()
 
 
 
@@ -97,7 +101,7 @@ function Home() {
                             <h1>{movie.title}</h1> 
                             <p>{movie.overview}</p>
                             <ContainerButtons>
-                                <Button red={true}>Assista Agora </Button>
+                                <Button red onClick={() => navigate(`/detalhe/${movie.id}`)}>Assista Agora </Button>
                                 <Button onClick={() => setShowModal(true)}> Assista o Trailer</Button>
                             </ContainerButtons>
                         </Info>
