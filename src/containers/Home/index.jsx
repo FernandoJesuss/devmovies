@@ -10,7 +10,7 @@ import Modal from "../../components/Modal";
 
 
 function Home() {
-      const [ShowModal, setShowModal] = useState(false);
+    const [ShowModal, setShowModal] = useState(false);
     const [movie, setMovie] = useState([]);
     const [topMovies, setTopMovies] = useState([]);
     const [topSeries, setTopSeries] = useState([]);
@@ -22,83 +22,34 @@ function Home() {
 
 
     useEffect(() => {
-        async function getMovies() {
-            try {
-                const {
-                    data: { results }
-                } = await api.get("/movie/popular");
+        async function getAllData() {
 
-                setMovie(results[0])
-            } catch (error) {
-                console.error("Erro ao buscar filmes:", error);
-            }
+
+                setMovie( await getMovies())
+                setTopMovies( await getTopMovies())
+                setTopSeries( await getTopSeries())
+                setPopularSeries( await getPopularSeries())
+                setTopPeople( await getTopPeople())
+                
+            
         }
 
-        async function getTopMovies() {
-            try {
-                const {
-                    data: { results }
-                } = await api.get("/movie/top_rated");
+    
 
-                setTopMovies(results)
-            } catch (error) {
-                console.error("Erro ao buscar filmes:", error);
-            }
-        }
-
-        async function getTopSeries() {
-            try {
-                const {
-                    data: { results }
-                } = await api.get("/tv/top_rated");
-
-                setTopSeries(results)
-            } catch (error) {
-                console.error("Erro ao buscar Series:", error);
-            }
-        }
-
-        async function getPopularSeries() {
-            try {
-                const {
-                    data: { results }
-                } = await api.get("/tv/popular");
-
-                setPopularSeries(results)
-            } catch (error) {
-                console.error("Erro ao buscar Series:", error);
-            }
-        }
-
-        async function getTopPeople() {
-            try {
-                const {
-                    data: { results }
-                } = await api.get("/person/popular");
-
-                setTopPeople(results)
-            } catch (error) {
-                console.error("Erro ao buscar Series:", error);
-            }
-        }
-
-        getMovies();
-        getTopMovies()
-        getTopSeries()
-        getPopularSeries()
-        getTopPeople()
+        getAllData();
+      
     }, []);
 
     return (
         <>
             {movie && (
                 <Background img={getImages(movie.backdrop_path)}>
-                    {ShowModal &&(
-                         <Modal movieId={movie.id} setShowModal={setShowModal} />
-                )}
+                    {ShowModal && (
+                        <Modal movieId={movie.id} setShowModal={setShowModal} />
+                    )}
                     <Container>
                         <Info>
-                            <h1>{movie.title}</h1> 
+                            <h1>{movie.title}</h1>
                             <p>{movie.overview}</p>
                             <ContainerButtons>
                                 <Button red onClick={() => navigate(`/detalhe/${movie.id}`)}>Assista Agora </Button>
