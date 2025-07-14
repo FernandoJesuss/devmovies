@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Container } from "./styles";
+import { Container, Background, Cover } from "./styles";
 import { getMovieById, getMovieCredits, getMovieSimilar, getMovieVideos } from "../../services/getData";
 
 
@@ -46,11 +46,19 @@ const[movieSimilar, setMovieSimilar] = useState()
 
 
     return (
+        <>
+ {movie && ( 
+           <>
+      <Background image={getImages(movie.Backdrop_path)}/>
         <Container>
+            <Cover>
+                <img src={getImages(movie.poster_path)} />
+            </Cover>
 <div>Detalhe</div>
-
-
         </Container>
+        </>
+        )}
+        </>
     )
 }
 
